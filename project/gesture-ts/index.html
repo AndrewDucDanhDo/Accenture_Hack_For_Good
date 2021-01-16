@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="header">
+      <img src="/static/bird.svg" />
+    </section>
+
+    <div id="start">
+      <div class="content">
+        <button
+          class="start-button"
+          type="button"
+          onclick="init();  document.getElementById('time').innerHTML='8';"
+        >
+          START
+        </button>
+      </div>
+    </div>
+
+    <div id="started">
+      <div class="content">
+        <span class="result"><h1>Wave your right hand</h1></span>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        <div class="counter">
+          Time Remaining: <span id="time">00:15</span> seconds
+        </div>
+      </div>
+    </div>
+
+    <div id="correct">
+      <div class="content">
+        <div class="car"><img src="./static/blue-car.png" /></div>
+        <span class="result"><h1>CORRECT</h1></span>
+        <h2>GOOD JOB!</h2>
+        <div class="add-to-collection">
+          <h5>You Like: Cars</h5>
+          <h5>A blue car has been added to your collection!</h5>
+        </div>
+      </div>
+    </div>
+
+    <div id="incorrect">
+      <div class="content">
+        <img src="./static/incorrect-crab.svg" />
+        <span class="result"><h1>TRY AGAIN</h1></span>
+        <h2>
+          YOU GOT IT<br />
+          NEXT TIME!
+        </h2>
+      </div>
+    </div>
+
+    <section class="footer">
+      <img src="/static/map.svg" />
+      <img src="/static/pirate.svg" />
+    </section>
+
+    <script type="text/javascript">
+      function startTest() {
+        video = document.getElementById("video");
+        video.style.visibility = "hidden";
+        start = document.getElementById("start");
+        start.style.visibility = "visible";
+        return;
+      }
+      // More API functions here:
+      // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+      // the link to your model provided by Teachable Machine export panel
+      const URL = "https://teachablemachine.withgoogle.com/models/4wUXXl6cm/";
+
+      let model, webcam, labelContainer, maxPredictions;
+
+      // Load the image model and setup the webcam
+      async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // or files from your local hard drive
+        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        // Convenience function to setup a webcam
+        const flip = true; // whether to flip the webcam
+        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        clock();
+        window.requestAnimationFrame(loop);
+
+        // append elements to the DOM
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) {
+          // and class labels
+          labelContainer.appendChild(document.createElement("div"));
+        }
+      }
+
+      async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+      }
+
+      // run the webcam image through the image model
+      async function predict() {
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+        for (let i = 0; i < maxPredictions; i++) {
+          const classPrediction =
+            prediction[i].className +
+            ": " +
+            prediction[i].probability.toFixed(2);
+          labelContainer.childNodes[i].innerHTML = classPrediction;
+          if (prediction[2].probability > 0.999) {
+            setTimeout(function () {
+              correct = document.getElementById("correct");
+              correct.style.visibility = "visible";
+              clearInterval(myTimer);
+            }, 1000);
+          }
+        }
+      }
+
+      var myTimer;
+      function clock() {
+        started = document.getElementById("started");
+        started.style.visibility = "visible";
+        myTimer = setInterval(myClock, 1000);
+        var c = 15;
+
+        function myClock() {
+          document.getElementById("time").innerHTML = --c;
+          if (c == 0) {
+            incorrect = document.getElementById("incorrect");
+            incorrect.style.visibility = "visible";
+            webcam.stop();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

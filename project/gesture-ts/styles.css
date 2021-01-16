@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 3.4rem;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h5 {
+  font-size: 1rem;
+  padding: 2px;
+}
+
+.result {
+  margin: 15px;
+}
+
+.start-button {
+  background-color: #4dd038;
+  border: none;
+  color: white;
+  padding: 15px 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.header {
+  padding: 24px;
+  z-index: 20;
+}
+
+.header img {
+  z-index: 21;
+}
+
+#start {
+  position: fixed;
+  margin: 0;
+  background-color: #f9c74f;
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+
+#started {
+  position: fixed;
+  margin: 0;
+  background-color: #f9c74f;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+
+#webcam-container {
+  border: 16px solid #f8961e;
+  border-radius: 16px;
+}
+
+#label-container {
+  display: none;
+}
+
+#correct {
+  position: fixed;
+  margin: 0;
+  background-color: #85c37b;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  z-index: 13;
+  top: 0;
+  left: 0;
+}
+
+.car img {
+  width: 140px;
+}
+
+.add-to-collection {
+  margin: 15px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+#incorrect {
+  position: fixed;
+  margin: 0;
+  background-color: #ffa25f;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  z-index: 12;
+  top: 0;
+  left: 0;
+}
+
+.content {
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  z-index: 15;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #f8961e;
+  padding: 15px 0;
+  box-shadow: 8px 4px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.counter {
+  padding: 15px;
+  font-size: 24px;
+  font-weight: 600;
+  background-color: #4dd038;
+  border-radius: 16px;
+}

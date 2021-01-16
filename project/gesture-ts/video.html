@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="video.css" />
+  </head>
+  <body>
+    <div id="video">
+      <section class="header">
+        <img src="/static/bird.svg" />
+      </section>
+      <div class="content">
+        <div class="heading">
+          <span class="result"><h1>Task: Wave your right hand</h1></span>
+        </div>
+        <img class="arrow" src="/static/arrow-down.svg" />
+        <div class="video-container">
+          <video width="320" height="240" controls autoplay loop>
+            <source src="/test.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <a href="/index.html"
+          ><button class="start-button" type="button" onclick="startTest()">
+            TRY IT YOURSELF
+          </button></a
+        >
+      </div>
+
+      <section class="footer">
+        <img src="/static/map.svg" />
+        <img src="/static/pirate.svg" />
+      </section>
+    </div>
+  </body>
+</html>
